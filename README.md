@@ -18,17 +18,10 @@ git clone https://github.com/your-username/my-express-application.git
 ```bash
 npm install
 ```
-ou
-```bash
-yarn
-```
 
-4. Launch the application
+
+3. Launch the application
 ```bash
 npm run dev
-```
-ou
-```bash
-yarn dev
 ```
 
