@@ -1,0 +1,15 @@
+swagger: '2.0'
+basePath: '/v1'
+info:
+  title: 'Contreau'L API'
+  version: '1.0.0'
+definitions:
+  World:
+    type: 'object'
+    properties:
+      name:
+        description: 'The name of this world.'
+        type: 'string'
+    required:
+      - 'name'
+paths: {}
