@@ -1,15 +1,104 @@
-swagger: '2.0'
-basePath: '/v1'
+openapi: 3.0.3
 info:
-  title: 'Contreau'L API'
+  title: 'ContreauL API'
   version: '1.0.0'
-definitions:
-  World:
-    type: 'object'
-    properties:
-      name:
-        description: 'The name of this world.'
-        type: 'string'
-    required:
-      - 'name'
-paths: {}
+tags:
+  - name: Users
+    description: Manage users access
+  - name: Weather
+    description: Provide weather forecast information's
+paths:
+  /v1/users:
+    post:
+      tags:
+        - Users
+      summary: Add a new user
+      requestBody:
+        description: The user to add
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - password
+                - email
+              properties:
+                name:
+                  type: string
+                  description: The user name
+                password:
+                  type: string
+                  description: The user password
+                email:
+                  type: string
+                  description: The user email
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: integer
+                    description: The user Token
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSHVndWVzIiwiZW1haWwiOiJodWdlczYyQGdtYWlsLmNvbSJ9.hjIs6IVN1WSh5IuyoyIt85zBKFk_cmnRPsDvUlcHQ6U
+        '401':
+          description: User already exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: User already exist
+  /v1/users/login:
+    post:
+      tags:
+        - Users
+      summary: Login a user
+      requestBody:
+        description: The user to login
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+                - email
+              properties:
+                password:
+                  type: string
+                  description: The user password
+                email:
+                  type: string
+                  description: The user email
+      responses:
+        '200':
+          description: Logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: integer
+                    description: The user Token
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSHVndWVzIiwiZW1haWwiOiJodWdlczYyQGdtYWlsLmNvbSJ9.hjIs6IVN1WSh5IuyoyIt85zBKFk_cmnRPsDvUlcHQ6U
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Invalid email or password

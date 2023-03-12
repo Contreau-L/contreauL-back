@@ -1,5 +1,6 @@
 import {Pool} from "pg";
-import * as dotenv from 'dotenv';
+import dotenv from "dotenv";
+
 dotenv.config();
 
 const pool = new Pool({
@@ -10,7 +11,7 @@ const pool = new Pool({
   port: parseInt(process.env.DB_PORT as string, 10),
 });
 
-export const openConnection = async () => {
-  return await pool.connect();
-}
+export const openConnection = () => pool.connect();
+
+
 

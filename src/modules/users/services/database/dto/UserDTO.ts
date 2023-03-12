@@ -1,20 +1,26 @@
 import User from "../../domain/models/User";
+import {QueryResultRow} from "pg";
 
 class UserDTO {
-    id?: string;
     user_name: string;
     password: string
     email: string;
+    id?: string;
 
-    constructor(id: string, user_name: string, password:string, email: string) {
-        this.id = id;
+
+    constructor(user_name: string, password:string, email: string, id?: string,) {
         this.user_name = user_name;
         this.password = password;
         this.email = email;
+        this.id = id;
     }
 
-    fromModel(model: User) {
-        return new UserDTO(model.id, model.name, model.password, model.email)
+    public static fromModel(model: User) {
+        return new UserDTO(model.name, model.password, model.email, model.id)
+    }
+
+    public static fromData(data: QueryResultRow) {
+        return new UserDTO(data.user_name, data.password, data.email, data.id)
     }
 }
 

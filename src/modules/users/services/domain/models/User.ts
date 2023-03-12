@@ -1,20 +1,25 @@
 import UserDTO from "../../database/dto/UserDTO";
 
 class User {
-    id: string;
     name: string;
     password: string;
     email: string;
+    id?: string;
 
-    constructor(id: string, name: string, password: string, email: string) {
-        this.id = id;
-        this.name = name;
+
+    constructor(name: string, password: string, email: string, id?: string) {
         this.password = password;
         this.email = email;
+        this.name = name;
+        this.id = id;
     }
 
-    fromDTO(dto: UserDTO) {
-        return new User(dto.id, dto.user_name, dto.password, dto.email);
+    public static fromDTO(dto: UserDTO) {
+        return new User(dto.user_name, dto.password, dto.email, dto.id);
+    }
+
+    public static convertFromBody(body: any) {
+        return new User(body.name, body.password, body.email);
     }
 }
 
