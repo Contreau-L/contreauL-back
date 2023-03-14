@@ -102,3 +102,44 @@ paths:
                     type: string
                     description: The error message
                     example: Invalid email or password
+  /v1/weather/today:
+    get:
+      tags:
+        - Weather
+      summary: Provide weather forecast for today
+      parameters:
+        - in: query
+          name: insee
+          schema:
+            type: integer
+          required: true
+          description: City insee number
+          example: 62500
+      responses:
+        '200':
+          description: Weather forecast retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  weather:
+                    type: array
+                    minItems: 4
+                    maxItems: 4
+                    items:
+                      type: object
+                      properties:
+                        forecast:
+                          type: object
+        '400':
+          description: Insee is missing in query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Insee query param is missing !

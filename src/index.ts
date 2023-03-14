@@ -6,8 +6,6 @@ const app = express();
 
 dotenv.config();
 
-
-
 app.use('/v1', (req: Request, res: Response, next: NextFunction) => {
     console.log("API entry !");
     next();

@@ -3,10 +3,7 @@ export const hashPassword = (password: string): Promise<string> => {
     return bcrypt.genSalt(10)
         .then((salt: string) =>
             bcrypt.hash(password,salt)
-                .then((hash: string) => {
-                    console.log(hash)
-                    return hash;
-                })
+                .then((hash: string) => hash)
         );
 };
 
