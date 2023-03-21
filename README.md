@@ -7,6 +7,9 @@ This is an Express application using TypeScript.
 - Node.js version 14 or higher
 - NPM or Yarn
 
+## Resources
+- [API Meteo documentation](https://api.meteo-concept.com/documentation)
+
 ## Installation
 
 1. Clone the Git repository:

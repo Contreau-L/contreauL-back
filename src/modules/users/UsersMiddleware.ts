@@ -6,7 +6,7 @@ export function userCreationMiddleware(req: Request, res: Response, next: NextFu
     if( !req.body.name || !req.body.password || !req.body.email ) {
         res.status(400).send('Requested field missing !');
     } else {
-        req.body.user = User.convertFromBody(req.body);
+        req.body = User.convertFromBody(req.body);
         next();
     }
 }

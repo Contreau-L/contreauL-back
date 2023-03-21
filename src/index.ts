@@ -2,6 +2,7 @@ import express, {NextFunction, Request, Response} from 'express';
 import dotenv from "dotenv";
 import usersRouter from "./modules/users/UsersRoute";
 import weatherRouter from "./modules/weather/WeatherRoute";
+import logsRouter from "./modules/logs/LogsRoute";
 const app = express();
 
 dotenv.config();
@@ -19,10 +20,13 @@ app.use(express.json());
 
 app.use('/v1/users', usersRouter);
 
-app.use('/v1/weather', weatherRouter)
+app.use('/v1/weather', weatherRouter);
 
-app.listen(8080, () => {
-    console.log('Server started on port 8080 : http://localhost:8080/v1');
+app.use('/v1/logs', logsRouter);
+
+let apiPort = process.env.API_PORT ? process.env.APi_PORT : 8080;
+app.listen(apiPort, () => {
+    console.log(`Server started on port ${apiPort} : http://localhost:${apiPort}/v1`);
 });
 
 // initialize({

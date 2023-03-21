@@ -7,6 +7,8 @@ tags:
     description: Manage users access
   - name: Weather
     description: Provide weather forecast information's
+  - name: Logs
+    description: Provide logs management
 paths:
   /v1/users:
     post:
@@ -143,3 +145,94 @@ paths:
                     type: string
                     description: The error message
                     example: Insee query param is missing !
+  /v1/weather/today/rain:
+    get:
+      tags:
+        - Weather
+      summary: Provide raining boolean for today
+      parameters:
+        - in: query
+          name: insee
+          schema:
+            type: integer
+          required: true
+          description: City insee number
+          example: 62500
+      responses:
+        '200':
+          description: Weather forecast retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  raining:
+                    type: boolean
+        '400':
+          description: Insee is missing in query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Insee query param is missing !
+  /v1/logs:
+    post:
+      tags:
+        - Logs
+      summary: Add a new log
+      requestBody:
+        description: The log to add
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - device
+                - water_temperature
+                - water_level
+                - occurred_at
+                - ph
+              properties:
+                device:
+                  type: integer
+                  description: Device associated to the log
+                water_temperature:
+                  type: integer
+                  description: The water temperature value
+                water_level:
+                  type: string
+                  description: The water level value
+                occurred_at:
+                  type: string
+                  description: Date when event happened
+                ph:
+                  type: integer
+                  description: The ph value
+      responses:
+        '201':
+          description: Log created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The log id
+                    example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
+        '401':
+          description: Invalid given data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Invalid data !

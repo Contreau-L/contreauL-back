@@ -5,7 +5,7 @@ import {NextFunction, Request, Response} from "express";
 const SECRET_KEY = process.env.JWT_KEY || 'default_key';
 
 export function createToken(user: User): string {
-    const payload = { id: user.id, name: user.name, email: user.email };
+    const payload = { name: user.name, email: user.email };
     const options = { expiresIn: '12h' };
     return jwt.sign(payload, SECRET_KEY, options);
 }

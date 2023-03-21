@@ -6,3 +6,10 @@ export function todayWeatherForecastMiddleware(req: Request, res: Response, next
     else
         next()
 }
+
+export function rainForTodayMiddleware(req: Request, res: Response, next: NextFunction) {
+    if (!req.query.insee)
+        res.status(400).json({error: "Insee query param is missing !"});
+    else
+        next()
+}

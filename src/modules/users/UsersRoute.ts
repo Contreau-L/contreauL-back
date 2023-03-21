@@ -13,7 +13,7 @@ usersRouter.use((req: Request, res: Response, next: NextFunction) => {
 })
 
 usersRouter.post('/', userCreationMiddleware, (req: Request, res: Response) => {
-    checkEmailExistence(req.body).then(async (emailExist?: boolean) => {
+    checkEmailExistence(req.body).then((emailExist?: boolean) => {
         if (emailExist !== undefined) {
             if (!emailExist) {
                 newUserInsertion(req.body).then((newUser?: User) => {
