@@ -205,7 +205,7 @@ paths:
                   type: integer
                   description: The water temperature value
                 water_level:
-                  type: string
+                  type: number
                   description: The water level value
                 occurred_at:
                   type: string
