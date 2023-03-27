@@ -14,7 +14,7 @@ import {checkPassword, hashPassword} from "../../../../utils/passwordHasher";
 export function insertNewUser(user: UserDTO): Promise<userDTO | void> {
     return openConnection().then(client =>
         hashPassword(user.password).then((hash: string) =>
-            client.query(getUserCreationRequest(), [user.user_name, hash, user.email])
+            client.query(getUserCreationRequest(), [user.name, hash, user.email])
                 .then((result: QueryResult) => {
                     user.id = result.rows[0];
                     return user;

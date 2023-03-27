@@ -1,7 +1,7 @@
 export function getDeviceFromIdRequest() {
-    return `SELECT * FROM "Device" WHERE "id_mac" = $1`;
+    return `SELECT * FROM "devices" WHERE "id_mac" = $1`;
 }
 
 export function getDeviceCreationRequest() {
-    return `INSERT INTO "Device" ("id_mac","name","latitude","longitude") VALUES ($1, $2, $3, $4)`;
+    return `INSERT INTO "devices" ("id_mac","name","latitude","longitude") VALUES ($1, $2, $3, $4)`;
 }

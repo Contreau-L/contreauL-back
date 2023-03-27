@@ -15,7 +15,7 @@ class User {
     }
 
     public static fromDTO(dto: UserDTO) {
-        return new User(dto.user_name, dto.password, dto.email, dto.id);
+        return new User(dto.name, dto.password, dto.email, dto.id);
     }
 
     public static convertFromBody(body: any) {

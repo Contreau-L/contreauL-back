@@ -2,14 +2,14 @@ import User from "../../domain/models/User";
 import {QueryResultRow} from "pg";
 
 class UserDTO {
-    user_name: string;
+    name: string;
     password: string
     email: string;
     id?: string;
 
 
     constructor(user_name: string, password:string, email: string, id?: string,) {
-        this.user_name = user_name;
+        this.name = user_name;
         this.password = password;
         this.email = email;
         this.id = id;
