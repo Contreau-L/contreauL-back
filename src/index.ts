@@ -24,12 +24,7 @@ app.use('/v1/weather', weatherRouter);
 
 app.use('/v1/logs', logsRouter);
 
-let apiPort = process.env.API_PORT ? process.env.APi_PORT : 8080;
+let apiPort = process.env.API_PORT ? process.env.API_PORT : 8080;
 app.listen(apiPort, () => {
     console.log(`Server started on port ${apiPort} : http://localhost:${apiPort}/v1`);
 });
-
-// initialize({
-//     app,
-//     apiDoc:
-// });

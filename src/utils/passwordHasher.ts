@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 export const hashPassword = (password: string): Promise<string> => {
     return bcrypt.genSalt(10)
         .then((salt: string) =>
