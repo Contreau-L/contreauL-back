@@ -7,7 +7,7 @@ export function insertNewLog(log: LogDTO): Promise<LogDTO | void> {
     return openConnection().then((client: PoolClient) =>
         client.query(getLogCreationRequest(), log.toQueryParam())
             .then((result: QueryResult) => {
-                log.id = result.rows[0];
+                log.id = result.rows[0].id;
                 return log;
             })
             .catch((error) => console.error(error))

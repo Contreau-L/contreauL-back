@@ -1,6 +1,6 @@
-import gardenLineDTO from "../../database/dto/gardenLineDTO";
+import GardenLineDTO from "../../database/dto/GardenLineDTO";
 
-class gardenLine {
+class GardenLine {
     device: string;
     vegetableType: string;
     humidityThreshold: number;
@@ -16,7 +16,7 @@ class gardenLine {
     }
 
     toDTO(){
-        return new gardenLineDTO(
+        return new GardenLineDTO(
             this.device,
             this.vegetableType,
             this.humidityThreshold,
@@ -26,4 +26,4 @@ class gardenLine {
     }
 }
 
-export default gardenLine;
+export default GardenLine;

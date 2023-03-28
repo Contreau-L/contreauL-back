@@ -1,6 +1,6 @@
-import gardenLine from "../../domain/model/gardenLine";
+import GardenLine from "../../domain/model/GardenLine";
 
-class gardenLineDTO {
+class GardenLineDTO {
     device: string;
     vegetable_type: string;
     humidity_threshold: number;
@@ -16,7 +16,7 @@ class gardenLineDTO {
     }
 
     toModel(){
-        return new gardenLine(
+        return new GardenLine(
             this.device,
             this.vegetable_type,
             this.humidity_threshold,
@@ -28,6 +28,16 @@ class gardenLineDTO {
     toQueryParam() {
         return [this.device, this.vegetable_type, this.humidity_threshold, this.line_index];
     }
+
+    static fromRow(row: any) {
+        return new GardenLineDTO(
+            row.device,
+            row.vegetable_type,
+            row.humidity_threshold,
+            row.line_index,
+            row.id
+        )
+    }
 }
 
-export default gardenLineDTO;
+export default GardenLineDTO;
