@@ -2,14 +2,16 @@ import {NextFunction, Request, Response} from "express";
 
 export function deviceAuthentificationMiddleware(req: Request, res: Response, next: NextFunction){
     if(!req.params.id)
-        res.status(400).json({error: "Id mac query param is missing !"});
+        res.status(400).json({error: "Id mac param is missing !"});
+    else if (!req.query.lines)
+        res.status(400).json({error: "Number of lines query param is missing !"})
     else
         next();
 }
 
-export function deviceTresholdsListMiddleware(req: Request, res: Response, next: NextFunction): void{
+export function deviceThresholdsListMiddleware(req: Request, res: Response, next: NextFunction): void{
     if(!req.params.id)
-        res.status(400).json({error: "Id mac query param is missing !"});
+        res.status(400).json({error: "Id mac param is missing !"});
     else
         next();
 }

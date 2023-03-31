@@ -1,5 +1,5 @@
 import express, {Request, Response} from "express";
-import {deviceAuthentificationMiddleware, deviceTresholdsListMiddleware} from "./DevicesMiddleware";
+import {deviceAuthentificationMiddleware, deviceThresholdsListMiddleware} from "./DevicesMiddleware";
 import {checkDeviceExistence, newDeviceInsertion} from "./services/domain/DevicesService";
 import Device from "./services/domain/model/Device";
 import {newConnectionInsertion} from "../connection/services/domain/ConnectionHistoryService";
@@ -11,11 +11,13 @@ const devicesRouter = express.Router();
 
 devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req: Request, res: Response) => {
     const idMac = req.params.id;
+    const linesNumber = req.query.lines as unknown as number;
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (!deviceExist) {
             newDeviceInsertion(new Device(idMac, "undefined", 0, 0, 0))
                 .then(() => {
-                        for (let index: number = 0; index < 3; index++) {
+                        console.log(linesNumber);
+                        for (let index: number = 0; index < linesNumber; index++) {
                             newGardenLineInsertion(new GardenLine(
                                 idMac.toString(),
                                 "undefined",
@@ -33,7 +35,7 @@ devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req
     })
 });
 
-devicesRouter.get('/:id/tresholds', deviceTresholdsListMiddleware, (req: Request, res: Response) => {
+devicesRouter.get('/:id/tresholds', deviceThresholdsListMiddleware, (req: Request, res: Response) => {
     const idMac = req.params.id;
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (deviceExist)
