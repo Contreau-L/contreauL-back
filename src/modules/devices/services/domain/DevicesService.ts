@@ -1,9 +1,8 @@
 import {checkDeviceFromIdMacExist, insertNewDevice} from "../database/DevicesDatabaseRepository";
 import Device from "./model/Device";
 
-export function checkDeviceExistence(id: number): Promise<boolean | undefined>{
-    return checkDeviceFromIdMacExist(id).then((deviceExist: boolean | void) => {
-        if (typeof deviceExist === "boolean")
+export function checkDeviceExistence(id: string): Promise<boolean>{
+    return checkDeviceFromIdMacExist(id).then((deviceExist: boolean) => {
             return deviceExist
     });
 }

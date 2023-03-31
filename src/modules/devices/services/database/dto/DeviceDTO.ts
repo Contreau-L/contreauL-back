@@ -1,14 +1,14 @@
 import Device from "../../domain/model/Device";
 
 class DeviceDTO {
-    id_mac: number;
+    id_mac: string;
     name: string;
     latitude: number;
     longitude: number;
     insee: number;
 
 
-    constructor(id_mac: number, name: string, latitude: number, longitude: number, insee: number) {
+    constructor(id_mac: string, name: string, latitude: number, longitude: number, insee: number) {
         this.id_mac = id_mac;
         this.name = name;
         this.latitude = latitude;

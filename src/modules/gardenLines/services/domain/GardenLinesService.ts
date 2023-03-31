@@ -1,5 +1,9 @@
 import GardenLine from "./model/GardenLine";
-import {insertNewGardenLine, retrieveGardenLineListFromDevice} from "../database/GardenLinesDatabaseRequestRepository";
+import {
+    insertNewGardenLine,
+    retrieveGardenLineListFromDevice,
+    retrieveHumidityThresholdListFromDevice
+} from "../database/GardenLinesDatabaseRequestRepository";
 import GardenLineDTO from "../database/dto/GardenLineDTO";
 
 export function newGardenLineInsertion(line: GardenLine) {
@@ -12,4 +16,9 @@ export function gardenLinesListRetrieval(deviceId: string) {
         linesListDTO.forEach((line: GardenLineDTO) => lineList.push(line.toModel()));
         return lineList;
     })
+}
+
+export function humidityThresholdListRetrieval(deviceId: string) {
+    return retrieveHumidityThresholdListFromDevice(deviceId)
+        .then((humidityThresholdList: Array<string>) => humidityThresholdList);
 }

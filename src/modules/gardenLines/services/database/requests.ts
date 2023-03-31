@@ -5,3 +5,7 @@ export function getGardenLineCreationRequest(){
 export function getGardenLineListFromDeviceSelectionRequest(){
     return `SELECT * FROM "garden_lines" WHERE device = $1 ORDER BY line_index`;
 }
+
+export function getHumidityTresholdListFromDeviceRequest(){
+    return `SELECT humidity_threshold FROM "garden_lines" WHERE device = $1 ORDER BY line_index`;
+}
