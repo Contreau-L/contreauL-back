@@ -37,7 +37,7 @@ class Log {
             body.device,
             body.water_temperature,
             body.water_level,
-            new Date(),
+            body.occured_at,
             body.ph
         )
     }

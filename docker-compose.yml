@@ -13,4 +13,5 @@ services:
 
 networks:
   contreaul-net:
+    name: database_contreaul-net
     external: true

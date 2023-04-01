@@ -18,7 +18,7 @@ class ConnectionDTO {
     }
 
     toQueryParam() {
-        return [this.device]
+        return [this.device, this.occurred_at]
     }
 
 }

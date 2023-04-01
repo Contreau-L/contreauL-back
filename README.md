@@ -23,8 +23,13 @@ npm install
 ```
 
 
-3. Launch the application
+3. Launch the application in development mode
 ```bash
 npm run dev
+```
+
+4. Launch the application
+```bash
+npm run start
 ```
 

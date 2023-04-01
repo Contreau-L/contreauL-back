@@ -21,7 +21,7 @@ class LogDTO {
     }
 
     toQueryParam() {
-        return [this.device, this.water_temperature, this.water_level, this.occured_at, this.ph]
+        return [this.device, this.water_temperature, this.water_level, this.occured_at, new Date(), this.ph]
     }
 
     toModel() {

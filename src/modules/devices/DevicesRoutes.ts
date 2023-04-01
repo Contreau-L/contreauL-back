@@ -4,7 +4,10 @@ import {checkDeviceExistence, newDeviceInsertion} from "./services/domain/Device
 import Device from "./services/domain/model/Device";
 import {newConnectionInsertion} from "../connection/services/domain/ConnectionHistoryService";
 import Connection from "../connection/services/domain/model/Connection";
-import {humidityThresholdListRetrieval, newGardenLineInsertion} from "../gardenLines/services/domain/GardenLinesService";
+import {
+    humidityThresholdListRetrieval,
+    newGardenLineInsertion
+} from "../gardenLines/services/domain/GardenLinesService";
 import GardenLine from "../gardenLines/services/domain/model/GardenLine";
 
 const devicesRouter = express.Router();
@@ -16,7 +19,6 @@ devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req
         if (!deviceExist) {
             newDeviceInsertion(new Device(idMac, "undefined", 0, 0, 0))
                 .then(() => {
-                        console.log(linesNumber);
                         for (let index: number = 0; index < linesNumber; index++) {
                             newGardenLineInsertion(new GardenLine(
                                 idMac.toString(),
