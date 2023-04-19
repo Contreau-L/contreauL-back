@@ -7,5 +7,5 @@ export const getUserFromEmailRequest = (): string => {
 }
 
 export const getUserPasswordFromEmailRequest = (): string => {
- return "SELECT password FROM \"users\" WHERE email = $1";
+ return "SELECT * FROM \"users\" WHERE email = $1";
 }

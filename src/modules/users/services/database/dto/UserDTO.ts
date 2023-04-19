@@ -20,7 +20,7 @@ class UserDTO {
     }
 
     public static fromData(data: QueryResultRow) {
-        return new UserDTO(data.user_name, data.password, data.email, data.id)
+        return new UserDTO(data.name, data.password, data.email, data.id)
     }
 }
 
