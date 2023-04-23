@@ -7,7 +7,7 @@ import {isRainExpectedForToday} from "./services/logic/WeatherDecision";
 const weatherRouter = express.Router();
 
 weatherRouter.use((req: Request, res: Response, next: NextFunction) => {
-    console.log("Weather endpoint entry !")
+    console.log("Weather endpoint entry !");
     next();
 })
 

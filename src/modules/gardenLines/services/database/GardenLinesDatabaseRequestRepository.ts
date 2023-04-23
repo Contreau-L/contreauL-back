@@ -3,7 +3,7 @@ import {openConnection} from "../../../../utils/databaseConnector";
 import {PoolClient, QueryResult, QueryResultRow} from "pg";
 import {
     getGardenLineCreationRequest,
-    getGardenLineListFromDeviceSelectionRequest,
+    getGardenLineListFromDeviceSelectionRequest, getHumidityTresholdFromGardenLineRequest,
     getHumidityTresholdListFromDeviceRequest
 } from "./requests";
 
@@ -33,5 +33,13 @@ export function retrieveHumidityThresholdListFromDevice(deviceId: string): Promi
             let thresholdList: Array<string> = [];
             result.rows.forEach((row: QueryResultRow) => thresholdList.push(row.humidity_threshold));
             return thresholdList;
+        });
+}
+
+export function retrieveHumidityThresholdFromGardenLine(gardenLineId: string): Promise<any> {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getHumidityTresholdFromGardenLineRequest(), [gardenLineId]))
+        .then((result: QueryResult) => {
+            return {threshold: result.rows[0].humidity_threshold, index: result.rows[0].line_index};
         });
 }

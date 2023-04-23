@@ -9,3 +9,7 @@ export function getGardenLineListFromDeviceSelectionRequest(){
 export function getHumidityTresholdListFromDeviceRequest(){
     return `SELECT humidity_threshold FROM "garden_lines" WHERE device = $1 ORDER BY line_index`;
 }
+
+export function getHumidityTresholdFromGardenLineRequest(){
+    return `SELECT * FROM "garden_lines" WHERE id = $1`;
+}

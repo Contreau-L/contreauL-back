@@ -1,0 +1,599 @@
+openapi: 3.0.3
+info:
+  title: 'ContreauL API'
+  version: '1.0.0'
+tags:
+  - name: Users
+    description: Manage users access
+  - name: Weather
+    description: Provide weather forecast information's
+  - name: Devices
+    description: Provide devices information and management
+  - name: Logs
+    description: Provide logs management
+  - name: Actions
+    description: Provide actions management
+
+
+paths:
+  /v1/users:
+    post:
+      tags:
+        - Users
+      summary: Add a new user
+      requestBody:
+        description: The user to add
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - password
+                - email
+              properties:
+                name:
+                  type: string
+                  description: The user name
+                password:
+                  type: string
+                  description: The user password
+                email:
+                  type: string
+                  description: The user email
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: The user Token
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSHVndWVzIiwiZW1haWwiOiJodWdlczYyQGdtYWlsLmNvbSJ9.hjIs6IVN1WSh5IuyoyIt85zBKFk_cmnRPsDvUlcHQ6U
+                  name:
+                    type: string
+                    description: The user Name
+                    example: Thomas
+        '401':
+          description: User already exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: User already exist
+  /v1/users/login:
+    post:
+      tags:
+        - Users
+      summary: Login a user
+      requestBody:
+        description: The user to login
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+                - email
+              properties:
+                password:
+                  type: string
+                  description: The user password
+                email:
+                  type: string
+                  description: The user email
+      responses:
+        '200':
+          description: Logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: integer
+                    description: The user Token
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSHVndWVzIiwiZW1haWwiOiJodWdlczYyQGdtYWlsLmNvbSJ9.hjIs6IVN1WSh5IuyoyIt85zBKFk_cmnRPsDvUlcHQ6U
+                  name:
+                    type: string
+                    description: The user Name
+                    example: Thomas
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Invalid email or password
+  /v1/weather/today:
+    get:
+      tags:
+        - Weather
+      summary: Provide weather forecast for today
+      parameters:
+        - in: query
+          name: insee
+          schema:
+            type: integer
+          required: true
+          description: City insee number
+          example: 62500
+      responses:
+        '200':
+          description: Weather forecast retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  weather:
+                    type: array
+                    minItems: 4
+                    maxItems: 4
+                    items:
+                      type: object
+                      properties:
+                        forecast:
+                          type: object
+        '400':
+          description: Insee is missing in query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Insee query param is missing !
+  /v1/weather/today/rain:
+    get:
+      tags:
+        - Weather
+      summary: Provide raining boolean for today
+      parameters:
+        - in: query
+          name: insee
+          schema:
+            type: integer
+          required: true
+          description: City insee number
+          example: 62500
+      responses:
+        '200':
+          description: Weather forecast retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  raining:
+                    type: boolean
+        '400':
+          description: Insee is missing in query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Insee query param is missing !
+  /v1/logs:
+    post:
+      tags:
+        - Logs
+      summary: Add a new log
+      requestBody:
+        description: The log to add
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - device
+                - water_temperature
+                - water_level
+                - occurred_at
+                - ph
+              properties:
+                device:
+                  type: integer
+                  description: Device associated to the log
+                  example: 23123189012309112
+                water_temperature:
+                  type: integer
+                  description: The water temperature value
+                  example: 12
+                water_level:
+                  type: number
+                  description: The water level value
+                  example: 14
+                occurred_at:
+                  type: string
+                  description: Date when event happened
+                  example: 2023-04-23 23:29:15.369
+                ph:
+                  type: integer
+                  description: The ph value
+                  example: 7
+      responses:
+        '201':
+          description: Log created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The log id
+                    example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
+        '401':
+          description: Invalid given data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Invalid data !
+  /v1/devices/{id}/identification:
+    post:
+      tags:
+        - Devices
+      summary: Identify a device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+        - in: query
+          name: line
+          schema:
+            type: integer
+          required: true
+          description: Line numbers of the device
+          example: 5
+      responses:
+        '200':
+          description: Device identified
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The device id
+                    example: 1978230
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/devices/{id}/thresholds:
+    get:
+      tags:
+        - Devices
+      summary: Retrieve thresholds from device garden lines
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+      responses:
+        '200':
+          description: Device identified
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  thresholds:
+                    type: array
+                    minItems: 1
+                    maxItems: 4
+                    items:
+                      type: integer
+                      example: 3
+
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+
+  /v1/actions/{id}/waiting:
+    get:
+      tags:
+        - Actions
+      summary: Retrieve waiting actions list of a device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+      responses:
+        '200':
+          description: Waiting actions list retrieve
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  actions:
+                    type: array
+                    minItems: 1
+                    maxItems: 4
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: The action id
+                          example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
+                        threshold:
+                          type: integer
+                          description: The action threshold
+                          example: 3
+                        index:
+                          type: integer
+                          description: The garden line index
+                          example: 1
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/actions/{id}:
+    get:
+      tags:
+        - Actions
+      summary: Retrieve actions of device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+      responses:
+        '200':
+          description: Actions list retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  actions:
+                    type: array
+                    minItems: 1
+                    maxItems: 4
+                    items:
+                      type: object
+                      properties:
+                        device:
+                          type: integer
+                          description: The action device
+                          example: 127839
+                        gardenLine:
+                          type: string
+                          description: The action garden line id
+                          example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
+                        type:
+                          type: string
+                          description: The action type
+                          example: MANUAL | AUTOMATIC
+                        status:
+                          type: string
+                          description: The action status
+                          example: WAITING | DONE | ERROR
+                        requestedAt:
+                          type: string
+                          description: The action requestedAt timestamp
+                          example: 2023-04-23 23:29:15.369
+                        occurredAt:
+                          type: string
+                          description: The action occurredAt timestamp
+                          example: 2023-04-23 23:29:15.369
+                        id:
+                          type: string
+                          description: The action id
+                          example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+    post:
+      tags:
+        - Actions
+      summary: Add actions for a device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+        - in: query
+          name: line
+          schema:
+            type: string
+          required: false
+          description: Line id to add action (not define => action for all lines)
+          example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
+      responses:
+        '200':
+          description: Actions inserted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+                    example: All actions have been inserted !
+
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/actions/status:
+    post:
+      tags:
+        - Actions
+      summary: Update actions status
+      requestBody:
+        description: The actions to update
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                actions:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - status
+                    properties:
+                      id:
+                        type: string
+                        description: The action id
+                        example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
+                      status:
+                        type: boolean
+                        description: The action status
+                        example: true | false
+
+      responses:
+        '200':
+          description: Actions updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+                    example: All actions have been inserted !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !

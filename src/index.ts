@@ -4,6 +4,7 @@ import usersRouter from "./modules/users/UsersRoute";
 import weatherRouter from "./modules/weather/WeatherRoute";
 import logsRouter from "./modules/logs/LogsRoute";
 import devicesRouter from "./modules/devices/DevicesRoutes";
+import actionsRouter from "./modules/actions/ActionsRoute";
 const app = express();
 
 dotenv.config();
@@ -33,6 +34,8 @@ app.use('/v1/weather', weatherRouter);
 app.use('/v1/logs', logsRouter);
 
 app.use('/v1/devices', devicesRouter);
+
+app.use('/v1/actions', actionsRouter);
 
 let apiPort = process.env.API_PORT ? process.env.API_PORT : 8080;
 app.listen(apiPort, () => {

@@ -19,7 +19,7 @@ devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req
         if (!deviceExist) {
             newDeviceInsertion(new Device(idMac, "undefined", 0, 0, 0))
                 .then(() => {
-                        for (let index: number = 0; index < linesNumber; index++) {
+                        for (let index: number = 1; index <= linesNumber; index++) {
                             newGardenLineInsertion(new GardenLine(
                                 idMac.toString(),
                                 "undefined",
@@ -37,7 +37,7 @@ devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req
     })
 });
 
-devicesRouter.get('/:id/tresholds', deviceThresholdsListMiddleware, (req: Request, res: Response) => {
+devicesRouter.get('/:id/thresholds', deviceThresholdsListMiddleware, (req: Request, res: Response) => {
     const idMac = req.params.id;
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (deviceExist)
