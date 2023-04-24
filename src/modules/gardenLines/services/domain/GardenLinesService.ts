@@ -2,7 +2,9 @@ import GardenLine from "./model/GardenLine";
 import {
     insertNewGardenLine,
     retrieveGardenLineListFromDevice,
-    retrieveHumidityThresholdListFromDevice, retrieveHumidityThresholdFromGardenLine
+    retrieveHumidityThresholdListFromDevice,
+    retrieveHumidityThresholdFromGardenLine,
+    retrieveGardenLineIdFromDeviceAndIndex
 } from "../database/GardenLinesDatabaseRequestRepository";
 import GardenLineDTO from "../database/dto/GardenLineDTO";
 
@@ -26,4 +28,8 @@ export function humidityThresholdListRetrieval(deviceId: string) {
 export function humidityThresholdRetrieval(gardenLineId: string) {
     return retrieveHumidityThresholdFromGardenLine(gardenLineId)
         .then((humidityThreshold: any) => humidityThreshold);
+}
+
+export function gardenLineRetrievalFromDeviceAndIndex(deviceId: string, lineIndex: number) {
+    return retrieveGardenLineIdFromDeviceAndIndex(deviceId, lineIndex);
 }

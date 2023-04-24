@@ -7,11 +7,11 @@ export function insertAutomaticActionRequest() {
 }
 
 export function updateActionStatusToDoneRequest() {
-    return `UPDATE "actions" SET ("status", "occurred_at") = ('DONE', $1) WHERE "id" = $2;`
+    return `UPDATE "actions" SET ("status", "occurred_at") = ('DONE', $1) WHERE "device" = $2 AND "garden_line" = $3 AND "status" = 'WAITING';`
 }
 
 export function updateActionStatusToErrorRequest() {
-    return `UPDATE "actions" SET ("status", "occurred_at") = ('ERROR', $1) WHERE "id" = $2;`
+    return `UPDATE "actions" SET ("status", "occurred_at") = ('ERROR', $1) WHERE "device" = $2 AND "garden_line" = $3 AND "status" = 'WAITING';`
 }
 
 export function getWaitingActionsFromDeviceRequest () {

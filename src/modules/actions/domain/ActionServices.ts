@@ -14,12 +14,12 @@ export function newAutomaticActionInsertion(deviceId: string, gardenLineId: stri
     return insertNewAutomaticAction(deviceId, gardenLineId, new Date());
 }
 
-export function actionStatusUpdateToDone(actionId: string) {
-    return updateActionStatusToDone(actionId, new Date());
+export function actionStatusUpdateToDone(deviceId: string, lineId: string, occurred_at: string ) {
+    return updateActionStatusToDone(deviceId, lineId, new Date(occurred_at));
 }
 
-export function actionStatusUpdateToError(actionId: string) {
-    return updateActionStatusToError(actionId, new Date());
+export function actionStatusUpdateToError(deviceId: string, lineId: string, occurred_at: string) {
+    return updateActionStatusToError(deviceId, lineId, new Date(occurred_at));
 }
 
 export function waitingActionsFromDeviceRetrieval(deviceId: string) {

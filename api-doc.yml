@@ -378,10 +378,6 @@ paths:
                     items:
                       type: object
                       properties:
-                        id:
-                          type: string
-                          description: The action id
-                          example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
                         threshold:
                           type: integer
                           description: The action threshold
@@ -566,14 +562,21 @@ paths:
                       - status
                     properties:
                       id:
+                        type: integer
+                        description: The device idMac
+                        example: 12897390
+                      index:
+                        type: integer
+                        description: The line index
+                        example: 2
+                      occured_at:
                         type: string
-                        description: The action id
-                        example: 71f2770b-bd5f-413a-ab74-8d6fcf26f6db
+                        description: The time when action occured_at
+                        example: 2023-04-23 23:29:15.369
                       status:
                         type: boolean
                         description: The action status
                         example: true | false
-
       responses:
         '200':
           description: Actions updated

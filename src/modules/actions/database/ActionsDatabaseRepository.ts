@@ -21,15 +21,15 @@ export function insertNewAutomaticAction(deviceId: string, gardenLineId: string,
             .finally(() => client.release()));
 }
 
-export function updateActionStatusToDone(actionId: string, occuredAt: Date) {
+export function updateActionStatusToDone(deviceId: string, lineId:string, occuredAt: Date) {
     return openConnection().then((client) =>
-        client.query(updateActionStatusToDoneRequest(), [occuredAt, actionId])
+        client.query(updateActionStatusToDoneRequest(), [occuredAt, deviceId, lineId])
             .finally(() => client.release()));
 }
 
-export function updateActionStatusToError(actionId: string, occuredAt: Date) {
+export function updateActionStatusToError(deviceId: string, lineId:string, occuredAt: Date) {
     return openConnection().then((client) =>
-        client.query(updateActionStatusToErrorRequest(), [occuredAt, actionId])
+        client.query(updateActionStatusToErrorRequest(), [occuredAt, deviceId, lineId])
             .finally(() => client.release()));
 }
 
