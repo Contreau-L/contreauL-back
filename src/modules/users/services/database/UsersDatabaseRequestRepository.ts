@@ -20,7 +20,6 @@ export function insertNewUser(user: UserDTO): Promise<userDTO | void> {
                     return user;
                 })
                 .catch((error) => console.error(error))
-                .finally(() => client.release())
         )
     )
 }
@@ -30,7 +29,6 @@ export function userEmailExist(user: UserDTO): Promise<boolean | void> {
         client.query(getUserFromEmailRequest(), [user.email])
             .then((result: QueryResult) => result.rowCount > 0)
             .catch((error) => console.error(error))
-            .finally(() => client.release())
     )
 }
 
@@ -45,7 +43,6 @@ export function userCheckLogin(user: UserLoginDTO): Promise<UserDTO | void> {
                     })
             })
             .catch((error) => console.error(error))
-            .finally(() => client.release())
     )
 }
 

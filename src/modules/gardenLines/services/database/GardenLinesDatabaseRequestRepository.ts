@@ -10,8 +10,7 @@ import {
 export function insertNewGardenLine(line: GardenLineDTO) {
     return openConnection().then((client: PoolClient) =>
         client.query(getGardenLineCreationRequest(), line.toQueryParam())
-            .catch((error) => console.error(error))
-            .finally(() => client.release()));
+            .catch((error) => console.error(error)));
 }
 
 export function retrieveGardenLineListFromDevice(deviceId: string): Promise<Array<GardenLineDTO>>{

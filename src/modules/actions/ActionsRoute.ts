@@ -31,21 +31,25 @@ actionsRouter.get('/:id/waiting', waitingActionsMiddleware, (req: Request, res: 
     const idMac = req.params.id;
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (deviceExist)
-            waitingActionsFromDeviceRetrieval(idMac).then(async (actionsList: Array<Action>) => {
+            waitingActionsFromDeviceRetrieval(idMac).then((actionsList: Array<Action>) => {
                 let actionsToSend: Array<any> = [];
-                let lineIndexAlreadySend: Array<number> = [];
+                let linesIdAlreadySend: Array<string> = [];
+                let PromiseList: Array<Promise<any>> = [];
                 for (const action of actionsList) {
-                    const lineInformations: any = await humidityThresholdRetrieval(action.gardenLine);
-                    if (!lineIndexAlreadySend.includes(lineInformations.index)) {
-                        actionsToSend.push({
-                            threshold: lineInformations.threshold,
-                            index: lineInformations.index
-                        });
-                        lineIndexAlreadySend.push(lineInformations.index);
+                    if(!linesIdAlreadySend.includes(action.gardenLine)) {
+                        PromiseList.push(humidityThresholdRetrieval(action.gardenLine));
+                        linesIdAlreadySend.push(action.gardenLine);
                     }
-
                 }
-                res.status(200).json({actions: actionsToSend});
+                Promise.all(PromiseList).then((values) => {
+                    values.forEach((value:any) => {
+                            actionsToSend.push({
+                                threshold: value.threshold,
+                                index: value.index
+                            });
+                    })
+                    res.status(200).json({actions: actionsToSend});
+                });
             });
         else
             res.status(401).json({error: "Device doesn't exist !"});
@@ -72,7 +76,6 @@ actionsRouter.post('/status', updateActionsStatusMiddleware, async (req: Request
     let promisesList: Array<Promise<any>> = [];
     for (const action of req.body.actions) {
         const lineId: any = await gardenLineRetrievalFromDeviceAndIndex(action.id, parseInt(action.index));
-        console.log()
         if (action.status)
             promisesList.push(actionStatusUpdateToDone(action.id, lineId, action.occurred_at));
         else
@@ -80,8 +83,7 @@ actionsRouter.post('/status', updateActionsStatusMiddleware, async (req: Request
     }
     Promise.all(promisesList).then(() => {
         res.status(200).json({message: "All actions have been updated !"});
-    }).catch((error) => {
-        console.log(error)
+    }).catch(() => {
         res.status(400).json({error: "Database connection error !"});
     });
 });

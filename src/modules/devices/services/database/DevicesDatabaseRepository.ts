@@ -7,7 +7,6 @@ export function checkDeviceFromIdMacExist(idMac: string): Promise<boolean> {
     return openConnection().then((client: PoolClient) =>
         client.query(getDeviceFromIdRequest(), [idMac])
             .then((result: QueryResult) => result.rowCount === 1)
-            .finally(() => client.release())
     )
 }
 
@@ -15,7 +14,6 @@ export function insertNewDevice(device: DeviceDTO): Promise<any> {
     return openConnection().then((client: PoolClient) =>
         client.query(getDeviceCreationRequest(), device.toQueryParam())
             .catch((error) => console.error(error))
-            .finally(() => client.release())
     )
 }
 

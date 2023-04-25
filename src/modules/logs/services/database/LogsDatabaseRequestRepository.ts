@@ -11,6 +11,5 @@ export function insertNewLog(log: LogDTO): Promise<LogDTO | void> {
                 return log;
             })
             .catch((error) => console.error(error))
-            .finally(() => client.release())
     )
 }
