@@ -1,5 +1,10 @@
 import User from "./models/User";
-import {insertNewUser, userCheckLogin, userEmailExist} from "../database/UsersDatabaseRequestRepository";
+import {
+    insertNewUser,
+    userCheckIfExist,
+    userCheckLogin,
+    userEmailExist
+} from "../database/UsersDatabaseRequestRepository";
 import UserDTO from "../database/dto/UserDTO";
 import UserLogin from "./models/UserLogin";
 import UserLoginDTO from "../database/dto/UserLoginDTO";
@@ -23,4 +28,8 @@ export function retrieveUserForLogin(user: UserLogin): Promise<User | undefined>
         if (userRetrieved)
             return User.fromDTO(userRetrieved);
     })
+}
+
+export function checkUserExistence(userId: string) {
+    return userCheckIfExist(userId);
 }

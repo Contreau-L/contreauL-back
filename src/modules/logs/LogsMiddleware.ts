@@ -9,3 +9,10 @@ export function logCreationMiddleware(req: Request, res: Response, next: NextFun
         next();
     }
 }
+
+export function logsRetrievalMiddleware(req: Request, res: Response, next: NextFunction) {
+    if (!req.params.id)
+        res.status(400).json({ error: "Id mac param is missing !" });
+    else
+        next();
+}

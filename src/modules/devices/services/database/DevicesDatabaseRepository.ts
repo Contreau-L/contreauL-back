@@ -1,6 +1,11 @@
 import {openConnection} from "../../../../utils/databaseConnector";
-import {PoolClient, QueryResult} from "pg";
-import {getDeviceCreationRequest, getDeviceFromIdRequest} from "./requests";
+import {PoolClient, QueryResult, QueryResultRow} from "pg";
+import {
+    getAttachedDeviceToUserRequest, getDeviceByIdAndUserRequest, getDeviceByIdRequest,
+    getDeviceCreationRequest,
+    getDeviceFromIdRequest,
+    getDevicesAttachedToUserRequest
+} from "./requests";
 import DeviceDTO from "./dto/DeviceDTO";
 
 export function checkDeviceFromIdMacExist(idMac: string): Promise<boolean> {
@@ -15,5 +20,31 @@ export function insertNewDevice(device: DeviceDTO): Promise<any> {
         client.query(getDeviceCreationRequest(), device.toQueryParam())
             .catch((error) => console.error(error))
     )
+}
+
+export function attachedDeviceToUser(userId: string, deviceId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getAttachedDeviceToUserRequest(), [userId, deviceId]))
+}
+
+export function retrieveDevicesAttachedToUser(userId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getDevicesAttachedToUserRequest(), [userId]).then((result: QueryResult) => {
+            let devicesList: Array<string> = [];
+            result.rows.forEach((row: QueryResultRow) => devicesList.push(row.device));
+            return devicesList;
+        }))
+}
+
+export function retrieveDeviceFromId(deviceId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getDeviceByIdRequest(), [deviceId])
+            .then((result: QueryResult) => DeviceDTO.fromRow(result.rows[0]) ));
+}
+
+export function checkDeviceAlreadyAttachedToUser(userId: string, deviceId: string) {
+    return openConnection().then((client: PoolClient) =>
+    client.query(getDeviceByIdAndUserRequest(), [deviceId, userId])
+        .then((result: QueryResult) => result.rowCount > 0));
 }
 

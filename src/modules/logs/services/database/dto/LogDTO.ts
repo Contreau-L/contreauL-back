@@ -1,4 +1,5 @@
 import Log from "../../domain/model/Log";
+import {QueryResultRow} from "pg";
 
 class LogDTO {
     device: number;
@@ -33,6 +34,18 @@ class LogDTO {
             this.ph,
             this.id,
             this.added_at
+        )
+    }
+
+    static fromRow(row: QueryResultRow) {
+        return new LogDTO(
+            row.device,
+            row.water_temperature,
+            row.water_level,
+            row.occurred_at,
+            row.ph,
+            row.id,
+            row.added_at
         )
     }
 }

@@ -1,17 +1,32 @@
 import {
+    checkWaitingActionsExistForLine,
     insertNewAutomaticAction,
-    insertNewManualAction, retrieveAllActionsFromDevice, retrieveWaitingActionsFromDevice,
-    updateActionStatusToDone, updateActionStatusToError
+    insertNewManualAction,
+    retrieveAllActionsFromDevice,
+    retrieveLastActionsFromDevice,
+    retrieveWaitingActionsFromDevice,
+    updateActionStatusToDone,
+    updateActionStatusToError, updateWaitingActionsTypeToManual
 } from "../database/ActionsDatabaseRepository";
 import Action from "./model/Action";
 import ActionDTO from "../database/dto/ActionDTO";
 
 export function newManualActionInsertion(deviceId: string, gardenLineId: string) {
-    return insertNewManualAction(deviceId, gardenLineId, new Date());
+    return checkWaitingActionsExistForLine(gardenLineId).then((actionExist: boolean): any => {
+        if(!actionExist)
+            return insertNewManualAction(deviceId, gardenLineId, new Date());
+        else
+            return updateWaitingActionsTypeToManual(deviceId, gardenLineId);
+    });
 }
 
 export function newAutomaticActionInsertion(deviceId: string, gardenLineId: string) {
-    return insertNewAutomaticAction(deviceId, gardenLineId, new Date());
+    return checkWaitingActionsExistForLine(gardenLineId).then((actionExist: boolean): any => {
+        if(!actionExist)
+            return insertNewAutomaticAction(deviceId, gardenLineId, new Date());
+        else
+            return Promise.resolve();
+    })
 }
 
 export function actionStatusUpdateToDone(deviceId: string, lineId: string, occurred_at: string ) {
@@ -36,4 +51,12 @@ export function actionsFromDevice(deviceId: string) {
         actionsList.forEach((actionDTO: ActionDTO) => actions.push(actionDTO.toModel()));
         return actions;
     });
+}
+
+export function lastActionsFromDevice(deviceId: string) {
+    return retrieveLastActionsFromDevice(deviceId).then((actionsList: Array<ActionDTO>) => {
+        let actions: Array<Action> =  [];
+        actionsList.forEach((actionDTO: ActionDTO) => actions.push(actionDTO.toModel()));
+        return actions;
+    })
 }

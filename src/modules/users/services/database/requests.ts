@@ -9,3 +9,7 @@ export const getUserFromEmailRequest = (): string => {
 export const getUserPasswordFromEmailRequest = (): string => {
  return "SELECT * FROM \"users\" WHERE email = $1";
 }
+
+export const getUserFromIdRequest = (): string => {
+ return `SELECT * FROM "users" WHERE "id" = $1`;
+}

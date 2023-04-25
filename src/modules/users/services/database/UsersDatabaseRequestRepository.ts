@@ -1,9 +1,9 @@
 import {openConnection} from '../../../../utils/databaseConnector';
 import UserDTO from "./dto/UserDTO";
-import {QueryResult} from "pg";
+import {PoolClient, QueryResult} from "pg";
 import {
     getUserCreationRequest,
-    getUserFromEmailRequest,
+    getUserFromEmailRequest, getUserFromIdRequest,
     getUserPasswordFromEmailRequest
 } from "./requests";
 import userDTO from "./dto/UserDTO";
@@ -44,5 +44,11 @@ export function userCheckLogin(user: UserLoginDTO): Promise<UserDTO | void> {
             })
             .catch((error) => console.error(error))
     )
+}
+
+export function userCheckIfExist(userId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getUserFromIdRequest(), [userId])
+            .then((result: QueryResult) => result.rows.length > 0) );
 }
 

@@ -5,13 +5,15 @@ class GardenLine {
     vegetableType: string;
     humidityThreshold: number;
     lineIndex: number;
+    status: boolean;
     id?: string;
 
-    constructor(device: string, vegetableType: string, humidityThreshold: number, lineIndex: number, id?: string) {
+    constructor(device: string, vegetableType: string, humidityThreshold: number, lineIndex: number, status: boolean, id?: string) {
         this.device = device;
         this.vegetableType = vegetableType;
         this.humidityThreshold = humidityThreshold;
         this.lineIndex = lineIndex;
+        this.status = status;
         this.id = id;
     }
 
@@ -21,6 +23,7 @@ class GardenLine {
             this.vegetableType,
             this.humidityThreshold,
             this.lineIndex,
+            this.status,
             this.id
         );
     }

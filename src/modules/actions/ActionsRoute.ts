@@ -8,7 +8,7 @@ import {
 import {checkDeviceExistence} from "../devices/services/domain/DevicesService";
 import {
     actionsFromDevice,
-    actionStatusUpdateToDone, actionStatusUpdateToError,
+    actionStatusUpdateToDone, actionStatusUpdateToError, lastActionsFromDevice,
     newManualActionInsertion,
     waitingActionsFromDeviceRetrieval
 } from "./domain/ActionServices";
@@ -63,6 +63,20 @@ actionsRouter.get('/:id', actionsRetrievalMiddleware, (req: Request, res: Respon
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (deviceExist)
             actionsFromDevice(idMac).then((actionsList: Array<Action>) => {
+                res.status(200).json({actions: actionsList});
+            });
+        else
+            res.status(401).json({error: "Device doesn't exist !"});
+    }).catch(() => {
+        res.status(400).json({error: "Database connection error !"});
+    });
+});
+
+actionsRouter.get('/:id/last', actionsRetrievalMiddleware, (req: Request, res: Response) => {
+    const idMac = req.params.id;
+    checkDeviceExistence(idMac).then((deviceExist: boolean) => {
+        if (deviceExist)
+            lastActionsFromDevice(idMac).then((actionsList: Array<Action>) => {
                 res.status(200).json({actions: actionsList});
             });
         else

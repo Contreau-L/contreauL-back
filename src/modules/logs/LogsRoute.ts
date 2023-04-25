@@ -1,6 +1,6 @@
 import express, {NextFunction, Request, Response} from "express";
-import {logCreationMiddleware} from "./LogsMiddleware";
-import {newLogInsertion} from "./services/domain/LogsService";
+import {logCreationMiddleware, logsRetrievalMiddleware} from "./LogsMiddleware";
+import {lastLogsFromDeviceRetrieval, newLogInsertion} from "./services/domain/LogsService";
 import Log from "./services/domain/model/Log";
 import {checkDeviceExistence} from "../devices/services/domain/DevicesService";
 import {newHumidityLevelInsertion} from "../humidityLevels/domain/HumidityLevelsService";
@@ -40,7 +40,23 @@ logsRouter.post('/', logCreationMiddleware, (req: Request, res: Response) => {
     }).catch(() => {
         res.status(400).json({error: "Database connection error !"})
     })
-})
+});
+
+logsRouter.get('/:id/last', logsRetrievalMiddleware, (req: Request, res: Response) => {
+    const idMac = req.params.id;
+    checkDeviceExistence(idMac).then((deviceExist: boolean) => {
+        if (deviceExist)
+            lastLogsFromDeviceRetrieval(idMac).then((logsList: Array<Log>) => {
+                res.status(200).json({logs: logsList});
+            });
+        else
+            res.status(401).json({error: "Device doesn't exist !"});
+    }).catch(() => {
+        res.status(400).json({error: "Database connection error !"});
+    });
+});
+
+
 
 export default logsRouter;
 
