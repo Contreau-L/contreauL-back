@@ -2,8 +2,11 @@ import GardenLineDTO from "./dto/GardenLineDTO";
 import {openConnection} from "../../../../utils/databaseConnector";
 import {PoolClient, QueryResult, QueryResultRow} from "pg";
 import {
-    getGardenLineCreationRequest, getGardenLineFromDeviceAndLineIndexRequest,
-    getGardenLineListFromDeviceSelectionRequest, getHumidityTresholdFromGardenLineRequest,
+    getGardenLineCreationRequest,
+    getGardenLineFromDeviceAndLineIndexRequest, getGardenLineFromIdRequest,
+    getGardenLineListFromDeviceSelectionRequest, getGardenLinesInformationsUpdateFromIdRequest,
+    getGardenLineStatusUpdateFromIdRequest,
+    getHumidityTresholdFromGardenLineRequest,
     getHumidityTresholdListFromDeviceRequest
 } from "./requests";
 
@@ -39,7 +42,7 @@ export function retrieveHumidityThresholdFromGardenLine(gardenLineId: string): P
     return openConnection().then((client: PoolClient) =>
         client.query(getHumidityTresholdFromGardenLineRequest(), [gardenLineId]))
         .then((result: QueryResult) => {
-            return {threshold: result.rows[0].humidity_threshold, index: result.rows[0].line_index};
+            return {threshold: result.rows[0].humidity_threshold, index: result.rows[0].line_index, status: result.rows[0].status};
         });
 }
 
@@ -47,4 +50,20 @@ export function retrieveGardenLineIdFromDeviceAndIndex(deviceId: string, lineInd
     return openConnection().then((client: PoolClient) =>
         client.query(getGardenLineFromDeviceAndLineIndexRequest(), [deviceId, lineIndex])
             .then((result: QueryResult) => result.rows[0].id));
+}
+
+export function existGardenLineFromId(lineId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getGardenLineFromIdRequest(), [lineId])
+            .then((result: QueryResult) => result.rows.length > 0));
+}
+
+export function updateGardenLineStatusFromId(lineId: string, status: boolean) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getGardenLineStatusUpdateFromIdRequest(), [status, lineId]));
+}
+
+export function updateGardenLinesInformationsFromId(vegetableType: string, humidityThreshold: number, lineId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getGardenLinesInformationsUpdateFromIdRequest(), [vegetableType, humidityThreshold, lineId]));
 }

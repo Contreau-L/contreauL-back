@@ -29,3 +29,13 @@ export function checkUserIdMiddleware(req: Request, res: Response, next: NextFun
     else
         next();
 }
+
+export function checkDeviceInformationsMiddleware(req: Request, res: Response, next: NextFunction) {
+    const insee = parseInt(req.body.insee);
+    if (!req.body.name ||!req.body.insee)
+        res.status(400).json({error: "Device informations is missing !"});
+    else if (insee < 0 || insee > 100000 || isNaN(insee)) {
+        res.status(400).json({error: "Device insee code is invalid !"});
+    } else
+        next();
+}

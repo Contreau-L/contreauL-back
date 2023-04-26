@@ -17,3 +17,16 @@ export function getHumidityTresholdFromGardenLineRequest(){
 export function getGardenLineFromDeviceAndLineIndexRequest(){
     return `SELECT * FROM "garden_lines" WHERE "device" = $1 AND "line_index" = $2`;
 }
+
+export function getGardenLineFromIdRequest(){
+    return `SELECT * FROM "garden_lines" WHERE "id" = $1`;
+}
+
+export function getGardenLineStatusUpdateFromIdRequest() {
+    return `UPDATE "garden_lines" SET ("status") = (row($1)) WHERE "id" = $2;`
+}
+
+export function getGardenLinesInformationsUpdateFromIdRequest() {
+    return `UPDATE "garden_lines" SET ("vegetable_type", "humidity_threshold") = ($1, $2) WHERE "id" = $3;`
+}
+

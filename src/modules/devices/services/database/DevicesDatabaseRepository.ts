@@ -3,7 +3,7 @@ import {PoolClient, QueryResult, QueryResultRow} from "pg";
 import {
     getAttachedDeviceToUserRequest, getDeviceByIdAndUserRequest, getDeviceByIdRequest,
     getDeviceCreationRequest,
-    getDeviceFromIdRequest,
+    getDeviceFromIdRequest, getDeviceInformationsUpdateFromIdRequest,
     getDevicesAttachedToUserRequest
 } from "./requests";
 import DeviceDTO from "./dto/DeviceDTO";
@@ -39,12 +39,18 @@ export function retrieveDevicesAttachedToUser(userId: string) {
 export function retrieveDeviceFromId(deviceId: string) {
     return openConnection().then((client: PoolClient) =>
         client.query(getDeviceByIdRequest(), [deviceId])
-            .then((result: QueryResult) => DeviceDTO.fromRow(result.rows[0]) ));
+            .then((result: QueryResult) => DeviceDTO.fromRow(result.rows[0])));
 }
 
 export function checkDeviceAlreadyAttachedToUser(userId: string, deviceId: string) {
     return openConnection().then((client: PoolClient) =>
-    client.query(getDeviceByIdAndUserRequest(), [deviceId, userId])
-        .then((result: QueryResult) => result.rowCount > 0));
+        client.query(getDeviceByIdAndUserRequest(), [deviceId, userId])
+            .then((result: QueryResult) => result.rowCount > 0));
+}
+
+export function updateDeviceInformationsFromId(name: string, insee: number, deviceId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getDeviceInformationsUpdateFromIdRequest(), [name, insee, deviceId])
+    )
 }
 

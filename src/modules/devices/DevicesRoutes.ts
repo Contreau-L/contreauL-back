@@ -1,13 +1,13 @@
 import express, {Request, Response} from "express";
 import {
-    checkDeviceIdMiddleware, checkUserIdMiddleware,
+    checkDeviceIdMiddleware, checkDeviceInformationsMiddleware, checkUserIdMiddleware,
     deviceAuthentificationMiddleware,
     deviceThresholdsListMiddleware
 } from "./DevicesMiddleware";
 import {
     checkDeviceAttachementToUser,
     checkDeviceExistence,
-    deviceByIdRetrieval,
+    deviceByIdRetrieval, deviceInformationsFromIdUpdate,
     newDeviceInsertion
 } from "./services/domain/DevicesService";
 import Device from "./services/domain/model/Device";
@@ -84,7 +84,6 @@ devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req
 devicesRouter.post('/:id/attached', checkDeviceIdMiddleware, checkUserIdMiddleware, (req: Request, res: Response) => {
     const idMac = req.params.id;
     const userId = req.query.user as unknown as string;
-    console.log(idMac)
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (deviceExist) {
             checkUserExistence(userId).then((deviceExist: boolean) => {
@@ -105,7 +104,18 @@ devicesRouter.post('/:id/attached', checkDeviceIdMiddleware, checkUserIdMiddlewa
     })
 });
 
-
-
+devicesRouter.patch('/:id', checkDeviceIdMiddleware, checkDeviceInformationsMiddleware, (req: Request, res: Response) => {
+    const idMac = req.params.id;
+    checkDeviceExistence(idMac).then((deviceExist: boolean) => {
+        if (deviceExist) {
+            deviceInformationsFromIdUpdate(req.body.name, req.body.insee, idMac)
+                .then(() => res.status(200).json({message: "Device informations have been updated !"}))
+        } else {
+            res.status(401).json({error: "Device doesn't exist !"});
+        }
+    }).catch(() => {
+        res.status(400).json({error: "Database connection error !"})
+    })
+})
 
 export default devicesRouter;

@@ -4,7 +4,10 @@ import {
     retrieveGardenLineListFromDevice,
     retrieveHumidityThresholdListFromDevice,
     retrieveHumidityThresholdFromGardenLine,
-    retrieveGardenLineIdFromDeviceAndIndex
+    retrieveGardenLineIdFromDeviceAndIndex,
+    updateGardenLineStatusFromId,
+    existGardenLineFromId,
+    updateGardenLinesInformationsFromId
 } from "../database/GardenLinesDatabaseRequestRepository";
 import GardenLineDTO from "../database/dto/GardenLineDTO";
 
@@ -32,4 +35,16 @@ export function humidityThresholdRetrieval(gardenLineId: string) {
 
 export function gardenLineRetrievalFromDeviceAndIndex(deviceId: string, lineIndex: number) {
     return retrieveGardenLineIdFromDeviceAndIndex(deviceId, lineIndex);
+}
+
+export function checkGardenLineExistenceFromId(lineId: string) {
+    return existGardenLineFromId(lineId);
+}
+
+export function gardenLineStatusFromIdUpdate(lineId: string, status: boolean) {
+    return updateGardenLineStatusFromId(lineId, status)
+}
+
+export function gardenLinesInformationFromIdUpdate(vegetableType: string, humidityThreshold: number, lineId: string){
+    return updateGardenLinesInformationsFromId(vegetableType, humidityThreshold, lineId);
 }

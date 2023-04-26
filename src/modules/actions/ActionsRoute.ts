@@ -43,6 +43,7 @@ actionsRouter.get('/:id/waiting', waitingActionsMiddleware, (req: Request, res: 
                 }
                 Promise.all(PromiseList).then((values) => {
                     values.forEach((value:any) => {
+                        if (value.status)
                             actionsToSend.push({
                                 threshold: value.threshold,
                                 index: value.index

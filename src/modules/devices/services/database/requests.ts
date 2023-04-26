@@ -21,3 +21,7 @@ export function getDeviceByIdRequest() {
 export function getDeviceByIdAndUserRequest() {
     return `SELECT * FROM "user_devices" WHERE "device" = $1 AND "user" = $2;`;
 }
+
+export function getDeviceInformationsUpdateFromIdRequest() {
+    return `UPDATE "devices" SET ("name", "insee") = ($1, $2) WHERE "id_mac" = $3;`
+}

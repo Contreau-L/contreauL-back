@@ -2,7 +2,7 @@ import {
     attachedDeviceToUser, checkDeviceAlreadyAttachedToUser,
     checkDeviceFromIdMacExist,
     insertNewDevice, retrieveDeviceFromId,
-    retrieveDevicesAttachedToUser
+    retrieveDevicesAttachedToUser, updateDeviceInformationsFromId
 } from "../database/DevicesDatabaseRepository";
 import Device from "./model/Device";
 import DeviceDTO from "../database/dto/DeviceDTO";
@@ -31,4 +31,8 @@ export function deviceByIdRetrieval(deviceId: string): Promise<Device> {
 
 export function checkDeviceAttachementToUser(userId: string, deviceId: string) {
     return checkDeviceAlreadyAttachedToUser(userId, deviceId);
+}
+
+export function deviceInformationsFromIdUpdate(name: string, insee: number, deviceId: string) {
+    return updateDeviceInformationsFromId(name, insee, deviceId);
 }
