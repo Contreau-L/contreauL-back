@@ -1,9 +1,9 @@
 import Log from "./model/Log";
-import {getLastLogsFromDevice, insertNewLog} from "../database/LogsDatabaseRequestRepository";
+import {getLastLogsFromDevice, getLatestLogFromDevice, insertNewLog} from "../database/LogsDatabaseRequestRepository";
 import LogDTO from "../database/dto/LogDTO";
 import logDTO from "../database/dto/LogDTO";
 
-export function newLogInsertion (log: Log) {
+export function newLogInsertion(log: Log) {
     return insertNewLog(log.toDTO()).then((newLog: LogDTO | void) => {
         if (newLog) {
             return newLog.toModel();
@@ -17,4 +17,13 @@ export function lastLogsFromDeviceRetrieval(deviceId: string) {
         logList.forEach((logDTO: logDTO) => logs.push(logDTO.toModel()));
         return logs;
     })
+}
+
+export function latestLogFromDeviceRetrieval(deviceId: string) {
+    return getLatestLogFromDevice(deviceId).then((log: LogDTO | null) => {
+        if (log !== null)
+            return log.toModel()
+        else
+            return log
+    });
 }

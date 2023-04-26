@@ -1,4 +1,5 @@
 import HumidityLevel from "../../domain/model/HumidityLevel";
+import {QueryResultRow} from "pg";
 
 class HumidityLevelDTO {
     log: string;
@@ -24,6 +25,15 @@ class HumidityLevelDTO {
 
     toQueryParam(){
         return [this.log, this.garden_line, this.humidity_level]
+    }
+
+    static fromRow(row: QueryResultRow) {
+        return new HumidityLevelDTO(
+            row.log,
+            row.garden_line,
+            row.humidity_level,
+            row.id
+        )
     }
 }
 

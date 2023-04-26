@@ -5,3 +5,7 @@ export const getLogCreationRequest = (): string => {
 export const getLastLogsFromDeviceRequest = (): string => {
     return `SELECT * FROM "logs" WHERE "device" = $1 ORDER BY "occurred_at" DESC LIMIT 20;`
 }
+
+export const getLatestLogFromDeviceRequest = (): string => {
+    return `SELECT * FROM "logs" WHERE "device" = $1 ORDER BY "occurred_at" DESC LIMIT 1;`
+}

@@ -1,3 +1,6 @@
+import {QueryResultRow} from "pg";
+import Connection from "../../domain/model/Connection";
+
 class ConnectionDTO {
     device:string;
     occurred_at: Date;
@@ -10,7 +13,7 @@ class ConnectionDTO {
     }
 
     toModel() {
-        return new ConnectionDTO(
+        return new Connection(
             this.device,
             this.occurred_at,
             this.id
@@ -19,6 +22,14 @@ class ConnectionDTO {
 
     toQueryParam() {
         return [this.device, this.occurred_at]
+    }
+
+    static fromRow(row: QueryResultRow) {
+        return new ConnectionDTO(
+            row.device,
+            row.occurred_at,
+            row.id
+        )
     }
 
 }
