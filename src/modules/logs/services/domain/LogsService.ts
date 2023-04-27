@@ -1,5 +1,10 @@
 import Log from "./model/Log";
-import {getLastLogsFromDevice, getLatestLogFromDevice, insertNewLog} from "../database/LogsDatabaseRequestRepository";
+import {
+    getLastLogsFromDevice,
+    getLatestLogFromDevice,
+    insertNewLog,
+    retrieveLastMonthLogsFromDevice
+} from "../database/LogsDatabaseRequestRepository";
 import LogDTO from "../database/dto/LogDTO";
 import logDTO from "../database/dto/LogDTO";
 
@@ -26,4 +31,12 @@ export function latestLogFromDeviceRetrieval(deviceId: string) {
         else
             return log
     });
+}
+
+export function lastMonthLogFromDeviceRetrieval(deviceId: string) {
+    return retrieveLastMonthLogsFromDevice(deviceId).then((logsFound: Array<LogDTO>) => {
+        let logs: Array<Log> = [];
+        logsFound.forEach((log: LogDTO) => logs.push(log.toModel()));
+        return logs;
+    })
 }

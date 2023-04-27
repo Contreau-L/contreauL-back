@@ -1,6 +1,11 @@
 import LogDTO from "../database/dto/LogDTO";
 import {openConnection} from "../../../../utils/databaseConnector";
-import {getLastLogsFromDeviceRequest, getLatestLogFromDeviceRequest, getLogCreationRequest} from "./requests";
+import {
+    getLastLogsFromDeviceRequest,
+    getLastMonthLogsRequest,
+    getLatestLogFromDeviceRequest,
+    getLogCreationRequest
+} from "./requests";
 import {PoolClient, QueryResult, QueryResultRow} from "pg";
 
 export function insertNewLog(log: LogDTO): Promise<LogDTO | void> {
@@ -33,4 +38,14 @@ export function getLatestLogFromDevice(deviceId: string) {
                 else
                     return null;
             }));
+}
+
+export function retrieveLastMonthLogsFromDevice(deviceId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getLastMonthLogsRequest(), [deviceId])
+            .then((result: QueryResult) => {
+                let logsList: Array<LogDTO> = [];
+                result.rows.forEach((row: QueryResultRow) => logsList.push(LogDTO.fromRow(row)));
+                return logsList;
+            }))
 }
