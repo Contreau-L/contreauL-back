@@ -18,7 +18,7 @@ usersRouter.post('/', userCreationMiddleware, (req: Request, res: Response) => {
             if (!emailExist) {
                 newUserInsertion(req.body).then((newUser?: User) => {
                     if (newUser)
-                        res.status(201).json({token: createToken(newUser), name: newUser.name})
+                        res.status(201).json({token: createToken(newUser), name: newUser.name, id: newUser.id})
                 })
             } else {
                 res.status(401).json({error: "User already exist !"})
@@ -34,7 +34,7 @@ usersRouter.post('/', userCreationMiddleware, (req: Request, res: Response) => {
 usersRouter.post('/login', userLoginMiddleware, (req: Request, res: Response) => {
     retrieveUserForLogin(req.body).then((userLogin?: User) => {
         if (userLogin) {
-            res.status(200).json({token: createToken(userLogin), name: userLogin.name});
+            res.status(200).json({token: createToken(userLogin), name: userLogin.name, id: userLogin.id});
         } else {
             res.status(401).json({error: "Invalid credentials !"})
         }
