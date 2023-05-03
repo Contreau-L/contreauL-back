@@ -81,7 +81,7 @@ devicesRouter.get('/:id/context', checkDeviceIdMiddleware, (req: Request, res: R
                                 ph: log?.waterLevel,
                                 occurred_at: log?.occuredAt
                             }
-                            res.status(401).json({context: deviceContext});
+                            res.status(200).json({context: deviceContext});
                         }))
         else
             res.status(401).json({error: "Device doesn't exist !"});
