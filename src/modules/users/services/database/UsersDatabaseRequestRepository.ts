@@ -16,7 +16,7 @@ export function insertNewUser(user: UserDTO): Promise<userDTO | void> {
         hashPassword(user.password).then((hash: string) =>
             client.query(getUserCreationRequest(), [user.name, hash, user.email])
                 .then((result: QueryResult) => {
-                    user.id = result.rows[0];
+                    user.id = result.rows[0].id;
                     return user;
                 })
                 .catch((error) => console.error(error))
