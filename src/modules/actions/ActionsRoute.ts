@@ -109,8 +109,9 @@ actionsRouter.post('/:id', actionInsertionMiddleware, (req: Request, res: Respon
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (deviceExist) {
             if (gardenLine) {
+                console.log(gardenLine)
                 newManualActionInsertion(idMac, gardenLine as string).then(() => {
-                    res.status(200);
+                    res.status(200).json({message: "Action have been inserted !"});
                 })
             } else {
                 gardenLinesListRetrieval(idMac).then((gardenLineList: Array<GardenLine>) => {
