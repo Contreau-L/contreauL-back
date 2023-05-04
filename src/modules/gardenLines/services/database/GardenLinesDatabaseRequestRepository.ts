@@ -58,6 +58,12 @@ export function existGardenLineFromId(lineId: string) {
             .then((result: QueryResult) => result.rows.length > 0));
 }
 
+export function getGardenLineIndexFromId(lineId: string) {
+    return openConnection().then((client: PoolClient) =>
+        client.query(getGardenLineFromIdRequest(), [lineId])
+            .then((result: QueryResult) => result.rows[0].line_index));
+}
+
 export function updateGardenLineStatusFromId(lineId: string, status: boolean) {
     return openConnection().then((client: PoolClient) =>
         client.query(getGardenLineStatusUpdateFromIdRequest(), [status, lineId]));

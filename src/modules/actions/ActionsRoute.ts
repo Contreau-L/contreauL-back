@@ -15,10 +15,11 @@ import {
 import Action from "./domain/model/Action";
 import {
     gardenLineRetrievalFromDeviceAndIndex,
-    gardenLinesListRetrieval,
+    gardenLinesListRetrieval, getGardenLineIndexById,
     humidityThresholdRetrieval
 } from "../gardenLines/services/domain/GardenLinesService";
 import GardenLine from "../gardenLines/services/domain/model/GardenLine";
+import action from "./domain/model/Action";
 
 const actionsRouter = express.Router();
 
@@ -77,7 +78,10 @@ actionsRouter.get('/:id/last', actionsRetrievalMiddleware, (req: Request, res: R
     const idMac = req.params.id;
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (deviceExist)
-            lastActionsFromDevice(idMac).then((actionsList: Array<Action>) => {
+            lastActionsFromDevice(idMac).then(async (actionsList: Array<Action>) => {
+                for (const action1 of actionsList) {
+                    action1.gardenLine = await getGardenLineIndexById(action1.gardenLine);
+                }
                 res.status(200).json({actions: actionsList});
             });
         else

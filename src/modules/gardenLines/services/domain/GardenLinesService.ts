@@ -7,7 +7,7 @@ import {
     retrieveGardenLineIdFromDeviceAndIndex,
     updateGardenLineStatusFromId,
     existGardenLineFromId,
-    updateGardenLinesInformationsFromId
+    updateGardenLinesInformationsFromId, getGardenLineIndexFromId
 } from "../database/GardenLinesDatabaseRequestRepository";
 import GardenLineDTO from "../database/dto/GardenLineDTO";
 
@@ -39,6 +39,10 @@ export function gardenLineRetrievalFromDeviceAndIndex(deviceId: string, lineInde
 
 export function checkGardenLineExistenceFromId(lineId: string) {
     return existGardenLineFromId(lineId);
+}
+
+export function getGardenLineIndexById(lineId: string) {
+    return getGardenLineIndexFromId(lineId);
 }
 
 export function gardenLineStatusFromIdUpdate(lineId: string, status: boolean) {
