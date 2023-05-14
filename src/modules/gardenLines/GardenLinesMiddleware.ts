@@ -19,7 +19,7 @@ export function checkGardenLinesInformationsMiddleware(req: Request, res: Respon
     const threshold = parseFloat(req.body.humidity_threshold);
     if (!req.body.vegetable_type || !req.body.humidity_threshold)
         res.status(400).json({ error: "Garden Line informations is missing !" });
-    else if (threshold < 0 || threshold > 1 || isNaN(threshold))
+    else if (threshold < 0 || threshold > 100 || isNaN(threshold))
         res.status(400).json({ error: "Humidity_threshold value is not valid !" });
     else
         next();
