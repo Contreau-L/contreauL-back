@@ -41,9 +41,9 @@ devicesRouter.get('/:id/thresholds', deviceThresholdsListMiddleware, (req: Reque
             humidityThresholdListRetrieval(idMac.toString())
                 .then((thresholdsList: Array<string>) => res.status(200).json({thresholds: thresholdsList}));
         else
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 })
 
@@ -58,11 +58,11 @@ devicesRouter.get('/attached', checkUserIdMiddleware, (req: Request, res: Respon
                     Promise.all(promisesList).then((devices) => res.status(200).json({devices: devices}))
                 })
         } else {
-            res.status(401).json({error: "User doesn't exist !"});
+            res.status(401).json({error: "L'utilisateur n'existe pas !"});
         }
     }).catch((error) => {
         console.log(error)
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 })
 
@@ -78,15 +78,15 @@ devicesRouter.get('/:id/context', checkDeviceIdMiddleware, (req: Request, res: R
                                 last_connexion: connexion.occurredAt,
                                 water_temperature: log?.waterTemperature,
                                 water_level: log?.waterLevel,
-                                ph: log?.waterLevel,
+                                ph: log?.ph,
                                 occurred_at: log?.occuredAt
                             }
                             res.status(200).json({context: deviceContext});
                         }))
         else
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 })
 devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req: Request, res: Response) => {
@@ -94,7 +94,7 @@ devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req
     const linesNumber = req.query.lines as unknown as number;
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (!deviceExist) {
-            newDeviceInsertion(new Device(idMac, "undefined", 0))
+            newDeviceInsertion(new Device(idMac, "default", 0))
                 .then(() => {
                         for (let index: number = 1; index <= linesNumber; index++) {
                             newGardenLineInsertion(new GardenLine(
@@ -122,7 +122,7 @@ devicesRouter.post('/:id/identification', deviceAuthentificationMiddleware, (req
         newConnectionInsertion(new Connection(idMac.toString(), new Date()))
         res.status(200).json({id: idMac});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 });
 
@@ -136,16 +136,16 @@ devicesRouter.post('/:id/attached', checkDeviceIdMiddleware, checkUserIdMiddlewa
                     checkDeviceAttachementToUser(userId, idMac).then((deviceAttached: boolean) => {
                         if (!deviceAttached)
                             attachedDeviceToUser(userId, idMac);
-                        res.status(200).json({message: "User attached to the given device !"})
+                        res.status(200).json({message: "Appareil assigné !"})
                     })
                 } else
-                    res.status(401).json({error: "User doesn't exist !"});
+                    res.status(401).json({error: "L'utilisateur n'existe pas !"});
             })
         } else {
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
         }
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 });
 
@@ -154,12 +154,12 @@ devicesRouter.patch('/:id', checkDeviceIdMiddleware, checkDeviceInformationsMidd
     checkDeviceExistence(idMac).then((deviceExist: boolean) => {
         if (deviceExist) {
             deviceInformationsFromIdUpdate(req.body.name, req.body.insee, idMac)
-                .then(() => res.status(200).json({message: "Device informations have been updated !"}))
+                .then(() => res.status(200).json({message: "Les informations de l'appareil ont été mises à jour !"}))
         } else {
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
         }
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 })
 

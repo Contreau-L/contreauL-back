@@ -36,13 +36,13 @@ logsRouter.post('/', logCreationMiddleware, (req: Request, res: Response) => {
                         res.status(200).json({id: newLog.id});
                     }
                     else
-                        res.status(401).json({error: "Invalid data !"});
+                        res.status(401).json({error: "Données invalides !"});
                 })
             else
-                res.status(401).json({error: "Device doesn't exist !"});
+                res.status(401).json({error: "L'appareil n'existe pas !"});
         }
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 });
 
@@ -54,9 +54,9 @@ logsRouter.get('/:id/last', logsRetrievalMiddleware, (req: Request, res: Respons
                 res.status(200).json({logs: logsList});
             });
         else
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"});
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"});
     });
 });
 
@@ -73,9 +73,9 @@ logsRouter.get('/:id/month', logsRetrievalMiddleware, (req: Request, res: Respon
                 res.status(200);
             });
         else
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"});
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"});
     });
 });
 

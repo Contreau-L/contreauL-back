@@ -9,9 +9,6 @@ import {
     gardenLinesListRetrieval,
     gardenLineStatusFromIdUpdate
 } from "./services/domain/GardenLinesService";
-import {
-    updateGardenLineStatusFromId
-} from "./services/database/GardenLinesDatabaseRequestRepository";
 import {checkDeviceIdMiddleware} from "../devices/DevicesMiddleware";
 import {checkDeviceExistence} from "../devices/services/domain/DevicesService";
 import GardenLine from "./services/domain/model/GardenLine";
@@ -24,12 +21,12 @@ gardenLinesRouter.post("/:id/status", checkGardenLineIdMiddleware, checkGardenLi
     checkGardenLineExistenceFromId(lineId).then((lineExist: boolean) => {
         if (lineExist)
             gardenLineStatusFromIdUpdate(lineId, status).then(() =>
-                res.status(200).json({message: "Garden line status have been updated !"})
+                res.status(200).json({message: "Le status des lignes a été mis à jour !"})
             )
         else
-            res.status(400).json({error: "Garden line doesn't exist !"})
+            res.status(400).json({error: "La ligne n'existe pas !"})
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 })
 
@@ -41,7 +38,7 @@ gardenLinesRouter.get("/:id", checkDeviceIdMiddleware, (req: Request, res: Respo
                 res.status(200).json({lines: lineList});
             })
         else
-        res.status(400).json({error: "Device doesn't exist !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 });
 
@@ -50,12 +47,12 @@ gardenLinesRouter.patch("/:id", checkGardenLinesInformationsMiddleware, (req: Re
     checkGardenLineExistenceFromId(lineId).then((lineExist: boolean) => {
         if (lineExist)
             gardenLinesInformationFromIdUpdate(req.body.vegetable_type!, req.body.humidity_threshold, lineId).then(() =>
-                res.status(200).json({message: "Garden line informations have been updated !"})
+                res.status(200).json({message: "Les informations de la ligne ont été mises à jour !"})
             )
         else
-            res.status(400).json({error: "Garden line doesn't exist !"})
+            res.status(400).json({error: "La ligne n'existe pas !"})
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 })
 

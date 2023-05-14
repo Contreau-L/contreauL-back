@@ -2,7 +2,7 @@ import {NextFunction, Request, Response} from "express";
 
 export function waitingActionsMiddleware(req: Request, res: Response, next: NextFunction) {
     if (!req.params.id)
-        res.status(400).json({ error: "Id mac param is missing !" });
+        res.status(400).json({ error: "Adresse mac de l'appareil manquant !" });
     else
         next();
 }
@@ -16,7 +16,7 @@ export function actionInsertionMiddleware(req: Request, res: Response, next: Nex
 
 export function actionsRetrievalMiddleware(req: Request, res: Response, next: NextFunction) {
     if (!req.params.id)
-        res.status(400).json({ error: "Id mac param is missing !" });
+        res.status(400).json({ error: "Adresse mac de l'appareil manquant !" });
     else
         next();
 }

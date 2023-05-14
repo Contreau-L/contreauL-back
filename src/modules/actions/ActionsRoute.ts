@@ -54,9 +54,9 @@ actionsRouter.get('/:id/waiting', waitingActionsMiddleware, (req: Request, res: 
                 });
             });
         else
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"});
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"});
     });
 });
 
@@ -68,9 +68,9 @@ actionsRouter.get('/:id', actionsRetrievalMiddleware, (req: Request, res: Respon
                 res.status(200).json({actions: actionsList});
             });
         else
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"});
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"});
     });
 });
 
@@ -85,9 +85,9 @@ actionsRouter.get('/:id/last', actionsRetrievalMiddleware, (req: Request, res: R
                 res.status(200).json({actions: actionsList});
             });
         else
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"});
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"});
     });
 });
 
@@ -101,9 +101,9 @@ actionsRouter.post('/status', updateActionsStatusMiddleware, async (req: Request
             promisesList.push(actionStatusUpdateToError(action.id, lineId, action.occurred_at));
     }
     Promise.all(promisesList).then(() => {
-        res.status(200).json({message: "All actions have been updated !"});
+        res.status(200).json({message: "Toutes les actions ont été mises à jour !"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"});
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"});
     });
 });
 
@@ -115,7 +115,7 @@ actionsRouter.post('/:id', actionInsertionMiddleware, (req: Request, res: Respon
             if (gardenLine) {
                 console.log(gardenLine)
                 newManualActionInsertion(idMac, gardenLine as string).then(() => {
-                    res.status(200).json({message: "Action have been inserted !"});
+                    res.status(200).json({message: "Action ajoutée !"});
                 })
             } else {
                 gardenLinesListRetrieval(idMac).then((gardenLineList: Array<GardenLine>) => {
@@ -124,15 +124,15 @@ actionsRouter.post('/:id', actionInsertionMiddleware, (req: Request, res: Respon
                         actionsPromiseList.push(newManualActionInsertion(idMac, line.id!));
                     });
                     Promise.all(actionsPromiseList).then(() =>
-                        res.status(200).json({message: "All actions have been inserted !"})
+                        res.status(200).json({message: "Toutes les actions ont été ajoutées !"})
                     );
                 })
             }
         }
         else
-            res.status(401).json({error: "Device doesn't exist !"});
+            res.status(401).json({error: "L'appareil n'existe pas !"});
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"});
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"});
     });
 });
 

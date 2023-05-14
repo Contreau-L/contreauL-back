@@ -21,12 +21,12 @@ usersRouter.post('/', userCreationMiddleware, (req: Request, res: Response) => {
                         res.status(201).json({token: createToken(newUser), name: newUser.name, id: newUser.id})
                 })
             } else {
-                res.status(401).json({error: "User already exist !"})
+                res.status(401).json({error: "Utilisateur déjà existant !"})
             }
         }
     }).catch((error) => {
         console.log(error)
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 
 });
@@ -36,10 +36,10 @@ usersRouter.post('/login', userLoginMiddleware, (req: Request, res: Response) =>
         if (userLogin) {
             res.status(200).json({token: createToken(userLogin), name: userLogin.name, id: userLogin.id});
         } else {
-            res.status(401).json({error: "Invalid credentials !"})
+            res.status(401).json({error: "Identifiants invalides !"})
         }
     }).catch(() => {
-        res.status(400).json({error: "Database connection error !"})
+        res.status(400).json({error: "Erreur de connexion avec la base de donnée !"})
     })
 });
 
