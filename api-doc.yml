@@ -13,6 +13,8 @@ tags:
     description: Provide logs management
   - name: Actions
     description: Provide actions management
+  - name: Lines
+    description: Provide garden lines management
 
 
 paths:
@@ -255,11 +257,11 @@ paths:
                     type: string
                     description: The error message
                     example: Invalid data !
-  /v1/devices/{id}/identification:
-    post:
+  /v1/logs/{id}/last:
+    get:
       tags:
-        - Devices
-      summary: Identify a device
+        - Logs
+      summary: Retrieve last logs from device
       parameters:
         - in: path
           name: id
@@ -268,25 +270,78 @@ paths:
           required: true
           description: Device id mac to identify
           example: 1902642
-        - in: query
-          name: line
-          schema:
-            type: integer
-          required: true
-          description: Line numbers of the device
-          example: 5
       responses:
         '200':
-          description: Device identified
+          description: Last logs retrieve
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  id:
+                  logs:
+                    type: array
+                    items:
+                      type: object
+
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
                     type: string
-                    description: The device id
-                    example: 1978230
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/logs/{id}/month:
+    get:
+      tags:
+        - Logs
+      summary: Retrieve logs from last month from device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+      responses:
+        '200':
+          description: Logs from last month retrieve
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logs:
+                    type: array
+                    items:
+                      type: object
+
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
         '400':
           description: Database error
           content:
@@ -350,6 +405,251 @@ paths:
                     description: The error message
                     example: Database connection error !
 
+  /v1/devices/attached:
+    get:
+      tags:
+        - Devices
+      summary: Retrieve devices attached to a user
+      parameters:
+        - in: query
+          name: user
+          schema:
+            type: string
+          required: true
+          description: User id to attach device
+          example: b88a0714-700e-4a18-a506-8a5a5ac15eab
+      responses:
+        '200':
+          description: Device attached retrieve
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  devices:
+                    type: array
+                    items:
+                      type: object
+
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/devices/{id}/context:
+    get:
+      tags:
+        - Devices
+      summary: Retrieve device context (last log)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+      responses:
+        '200':
+          description: Device context retrieve
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  context:
+                    type: object
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+
+  /v1/devices/{id}/identification:
+    post:
+      tags:
+        - Devices
+      summary: Identify a device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+        - in: query
+          name: line
+          schema:
+            type: integer
+          required: true
+          description: Line numbers of the device
+          example: 5
+      responses:
+        '200':
+          description: Device identified
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The device id
+                    example: 1978230
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/devices/{id}/attached:
+    post:
+      tags:
+        - Devices
+      summary: Attach device to user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+        - in: query
+          name: user
+          schema:
+            type: string
+          required: true
+          description: User id to attach device
+          example: b88a0714-700e-4a18-a506-8a5a5ac15eab
+      responses:
+        '200':
+          description: Device attached
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+                    example: User attached !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/devices/{id}:
+    patch:
+      tags:
+        - Devices
+      summary: Update device informations
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+      requestBody:
+        description: The device new informations
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - insee
+              properties:
+                name:
+                  type: string
+                  description: The device name
+                insee:
+                  type: integer
+                  description: The device insee code
+      responses:
+        '200':
+          description: Device context retrieve
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+                    example: Device informations updated !
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+
   /v1/actions/{id}/waiting:
     get:
       tags:
@@ -386,6 +686,54 @@ paths:
                           type: integer
                           description: The garden line index
                           example: 1
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/actions/{id}/last:
+    get:
+      tags:
+        - Actions
+      summary: Retrieve last actions from device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+      responses:
+        '200':
+          description: Last actions retrieve
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  actions:
+                    type: array
+                    items:
+                      type: object
+
         '401':
           description: Device doesn't exist
           content:
@@ -589,6 +937,162 @@ paths:
                     type: string
                     description: Response message
                     example: All actions have been inserted !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+
+
+  /v1/lines/{id}/status:
+    post:
+      tags:
+        - Lines
+      summary: Update line status
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Line id to update
+          example: 7e5a950f-de73-4d1d-a4c3-00ac927d3338
+        - in: query
+          name: status
+          schema:
+            type: string
+          required: true
+          description: Status to set line
+          example: true
+      responses:
+        '200':
+          description: Line status set
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+                    example: Line status updated !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+  /v1/lines/{id}:
+    get:
+      tags:
+        - Lines
+      summary: Retrieve lines from device
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Device id mac to identify
+          example: 1902642
+      responses:
+        '200':
+          description: Lines retrieve
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lines:
+                    type: array
+                    items:
+                      type: object
+
+        '401':
+          description: Device doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Device doesn't exist !
+        '400':
+          description: Database error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Database connection error !
+    patch:
+      tags:
+        - Lines
+      summary: Update line informations
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Line id to update informations
+          example: 2c26733f-6e15-45d4-bc3e-69feb9d719c0
+      requestBody:
+        description: The line new informations
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - vegetable_type
+                - humidity_threshold
+              properties:
+                vegetable_type:
+                  type: string
+                  description: The line name
+                humidity_threshold:
+                  type: string
+                  description: The line humidity threshold
+      responses:
+        '200':
+          description: Line informations updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Response message
+                    example: Line informations updated !
+        '401':
+          description: Line doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The error message
+                    example: Line doesn't exist !
         '400':
           description: Database error
           content:

@@ -1,0 +1,580 @@
+{
+	"info": {
+		"_postman_id": "4cf93d19-91cf-4eb3-86f5-43e944ad57e7",
+		"name": "contreaul-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19699076",
+		"_collection_link": "https://gold-resonance-71887.postman.co/workspace/contreaul~256fa115-de86-495b-9400-319ce1e1caba/collection/19699076-4cf93d19-91cf-4eb3-86f5-43e944ad57e7?action=share&creator=19699076&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "/users/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"test\",\r\n    \"email\": \"testtest@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prod}}/users/login",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test\",\r\n    \"password\": \"test\",\r\n    \"email\": \"tet@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prod}}/users",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Weather",
+			"item": [
+				{
+					"name": "/weather/today",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"test\":\"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prod}}/weather/today?insee=62500",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"weather",
+								"today"
+							],
+							"query": [
+								{
+									"key": "insee",
+									"value": "62500"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/weather/today/rain",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/weather/today/rain?insee=13001",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"weather",
+								"today",
+								"rain"
+							],
+							"query": [
+								{
+									"key": "insee",
+									"value": "13001"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logs",
+			"item": [
+				{
+					"name": "/logs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"device\":555555,\r\n    \"water_temperature\":12,\r\n    \"water_level\":2,\r\n    \"occured_at\":\"2023-04-23 22:07:05.983\",\r\n    \"ph\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prod}}/v1/logs",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"v1",
+								"logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/logs/555555/last",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/logs/277371179807365/last",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"logs",
+								"277371179807365",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/logs/555555/month",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/logs/277371179807365/month",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"logs",
+								"277371179807365",
+								"month"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Devices",
+			"item": [
+				{
+					"name": "/devices/676767/identification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/devices/202481598063911/identification?lines=3",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"devices",
+								"202481598063911",
+								"identification"
+							],
+							"query": [
+								{
+									"key": "lines",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/devices/676767/attached",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/devices/555555/attached?user=6ec42a7d-3868-4819-9b6f-dfc68add4bde",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"devices",
+								"555555",
+								"attached"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "6ec42a7d-3868-4819-9b6f-dfc68add4bde"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/devices/676767/thresholds",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/devices/555555/thresholds",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"devices",
+								"555555",
+								"thresholds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/devices/attached",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/devices/attached?user=6ec42a7d-3768-4819-9b6f-dfc68add4bde",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"devices",
+								"attached"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "6ec42a7d-3768-4819-9b6f-dfc68add4bde"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/devices/{id}/context",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/devices/202481598063911/context",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"devices",
+								"202481598063911",
+								"context"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/devices/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"testAutomatic\",\r\n    \"insee\": 62300\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prod}}/devices/277371179807365",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"devices",
+								"277371179807365"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Actions",
+			"item": [
+				{
+					"name": "/actions/555555/waiting",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/actions/202481598063911/waiting",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"actions",
+								"202481598063911",
+								"waiting"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actions/555555/last",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/actions/277371179807365/last",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"actions",
+								"277371179807365",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actions/555555",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/actions/555555",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"actions",
+								"555555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actions/555555",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/actions/277371179807365",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"actions",
+								"277371179807365"
+							],
+							"query": [
+								{
+									"key": "line",
+									"value": "6e1baa14-84d5-47d5-921d-2f73ea849760",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/actions/status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"actions\" : [\r\n        {\"id\": \"555555\", \"status\": false, \"index\": 1, \"occurred_at\": \"2023-04-23 23:21:35.931\"}\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prod}}/actions/status",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"actions",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GardenLines",
+			"item": [
+				{
+					"name": "/v1/lines/{id}/status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{prod}}/lines/7e5a950f-de73-4d1d-a4c3-00ac927d3338/status?status=false",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"lines",
+								"7e5a950f-de73-4d1d-a4c3-00ac927d3338",
+								"status"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/lines/{deviceId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{prod}}/lines/8657372416",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"lines",
+								"8657372416"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/lines/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vegetable_type\": \"prout\",\r\n    \"humidity_threshold\": 0.44\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{prod}}/lines/b26791ab-4c0a-4250-85be-baadc5b72aba",
+							"host": [
+								"{{prod}}"
+							],
+							"path": [
+								"lines",
+								"b26791ab-4c0a-4250-85be-baadc5b72aba"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "dev",
+			"value": "http://localhost:8080/v1",
+			"type": "string"
+		},
+		{
+			"key": "prod",
+			"value": "51.83.41.102:8080/v1",
+			"type": "string"
+		}
+	]
+}
